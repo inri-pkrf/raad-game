@@ -3,6 +3,7 @@ import Intro from './components/Intro';
 import Setup from './components/Setup';
 import Game from './components/Game';
 import ErrorBoundary from './components/ErrorBoundary';
+import FullscreenButton from './components/FullscreenButton';
 import { Win, Lose } from './components/Result';
 import { ENVIRONMENTS, LEVELS } from './scenes';
 import { sounds, unlockAudio } from './sound';
@@ -82,6 +83,8 @@ function Shell() {
 
   return (
     <main className="app-shell">
+      {screen !== 'game' && <FullscreenButton className="fs-float" />}
+
       {screen === 'intro' && (
         <Intro
           key={round}

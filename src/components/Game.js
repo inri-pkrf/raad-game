@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Scene from './Scene';
 import Modal from './Modal';
+import FullscreenButton from './FullscreenButton';
 import ItemIcon from './ItemIcon';
 import { TARGET } from '../scenes';
 import { getPhotoSetup } from '../photos';
@@ -173,6 +174,7 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
         )}
 
         <div className="top-actions">
+          <FullscreenButton />
           <button className="icon-btn" onClick={toggleSound} aria-label={soundOff ? 'הפעלת צליל' : 'השתקה'} title={soundOff ? 'צליל כבוי' : 'צליל פעיל'}>
             {soundOff ? <SoundOffIcon /> : <SoundOnIcon />}
           </button>
