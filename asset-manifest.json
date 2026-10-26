@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/raad-game/static/css/main.a24e46bb.css",
+    "main.js": "/raad-game/static/js/main.febd6b3d.js",
+    "static/media/assistant-latin-700-normal.woff": "/raad-game/static/media/assistant-latin-700-normal.6e0532b8412176c81044.woff",
+    "static/media/assistant-latin-400-normal.woff": "/raad-game/static/media/assistant-latin-400-normal.02f27e42bfe570ee9f0a.woff",
+    "static/media/assistant-latin-600-normal.woff": "/raad-game/static/media/assistant-latin-600-normal.cc96037adb621c498de8.woff",
+    "static/media/assistant-latin-700-normal.woff2": "/raad-game/static/media/assistant-latin-700-normal.859338a2a4e99de0e1f8.woff2",
+    "static/media/assistant-latin-400-normal.woff2": "/raad-game/static/media/assistant-latin-400-normal.99c5362c1a93080b439a.woff2",
+    "static/media/assistant-latin-600-normal.woff2": "/raad-game/static/media/assistant-latin-600-normal.82b6616591f921c4988a.woff2",
+    "static/media/assistant-latin-ext-400-normal.woff": "/raad-game/static/media/assistant-latin-ext-400-normal.4edb59044b521c8ffa4b.woff",
+    "static/media/assistant-latin-ext-600-normal.woff": "/raad-game/static/media/assistant-latin-ext-600-normal.263bb06fe590d2f7ebf5.woff",
+    "static/media/assistant-latin-ext-700-normal.woff": "/raad-game/static/media/assistant-latin-ext-700-normal.1a46c90d8fa547ad397c.woff",
+    "static/media/assistant-latin-ext-600-normal.woff2": "/raad-game/static/media/assistant-latin-ext-600-normal.22efafc3b6489c6214d2.woff2",
+    "static/media/assistant-latin-ext-400-normal.woff2": "/raad-game/static/media/assistant-latin-ext-400-normal.9662c33bd9eca79f1532.woff2",
+    "static/media/assistant-latin-ext-700-normal.woff2": "/raad-game/static/media/assistant-latin-ext-700-normal.872f912ba06cfb9ac775.woff2",
+    "static/media/assistant-hebrew-700-normal.woff": "/raad-game/static/media/assistant-hebrew-700-normal.6c6b3beb13c6ee24a0ac.woff",
+    "static/media/assistant-hebrew-400-normal.woff": "/raad-game/static/media/assistant-hebrew-400-normal.61bac5ba2fedecb9c5f7.woff",
+    "static/media/assistant-hebrew-600-normal.woff": "/raad-game/static/media/assistant-hebrew-600-normal.098c9c551136f44a0cd3.woff",
+    "static/media/assistant-hebrew-700-normal.woff2": "/raad-game/static/media/assistant-hebrew-700-normal.8d985c312b4fc199ae7d.woff2",
+    "static/media/assistant-hebrew-400-normal.woff2": "/raad-game/static/media/assistant-hebrew-400-normal.57e6119fb708e752a2eb.woff2",
+    "static/media/assistant-hebrew-600-normal.woff2": "/raad-game/static/media/assistant-hebrew-600-normal.0d9d67ca3111c0f5dbeb.woff2",
+    "index.html": "/raad-game/index.html",
+    "main.a24e46bb.css.map": "/raad-game/static/css/main.a24e46bb.css.map",
+    "main.febd6b3d.js.map": "/raad-game/static/js/main.febd6b3d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a24e46bb.css",
+    "static/js/main.febd6b3d.js"
+  ]
+}
