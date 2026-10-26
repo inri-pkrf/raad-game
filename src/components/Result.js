@@ -1,5 +1,4 @@
 import React from 'react';
-import ItemIcon from './ItemIcon';
 import { TARGET } from '../scenes';
 
 export function Win({ env, level, foundItems, onAgain, onMenu, onHome }) {
@@ -15,14 +14,16 @@ export function Win({ env, level, foundItems, onAgain, onMenu, onHome }) {
 
       <div className="card">
         <h2 className="h2">החפצים שזוהו</h2>
-        <div className="slot-grid">
-          {foundItems.map((it) => (
-            <div className="slot filled" key={it.id}>
-              <ItemIcon item={it} size={110} />
+        <ol className="found-list">
+          {foundItems.map((it, i) => (
+            <li key={it.id}>
+              <span className="found-num" aria-hidden="true">
+                {i + 1}
+              </span>
               <span>{it.label}</span>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
 
       <div className="card remember">

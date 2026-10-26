@@ -62,9 +62,20 @@ function Shell() {
     };
   }, [resetAll]);
 
+  // צליל לכל לחיצה במסך (חפצים בתמונה משמיעים צליל משלהם - נכון / שגוי)
+  useEffect(() => {
+    const tap = (e) => {
+      unlockAudio();
+      const t = e.target;
+      if (t && t.closest && t.closest('.hs')) return;
+      sounds.click();
+    };
+    window.addEventListener('pointerdown', tap, true);
+    return () => window.removeEventListener('pointerdown', tap, true);
+  }, []);
+
   const play = () => {
     unlockAudio();
-    sounds.click();
     setRound((r) => r + 1);
     setScreen('game');
   };
@@ -76,7 +87,6 @@ function Shell() {
           key={round}
           onStart={() => {
             unlockAudio();
-            sounds.click();
             setScreen('setup');
           }}
         />

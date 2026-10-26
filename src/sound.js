@@ -29,7 +29,7 @@ function tone(freq, start, dur, type = 'sine', vol = 0.16) {
     osc.frequency.value = freq;
     const t = c.currentTime + start;
     gain.gain.setValueAtTime(0.0001, t);
-    gain.gain.exponentialRampToValueAtTime(vol, t + 0.02);
+    gain.gain.exponentialRampToValueAtTime(vol, t + 0.015);
     gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     osc.connect(gain);
     gain.connect(c.destination);
@@ -49,26 +49,30 @@ export function setMuted(value) {
 }
 
 export const sounds = {
-  // אישור: שני צלילים רגועים
+  // תשובה נכונה: שלושה צלילים עולים, צלולים וברורים
   correct() {
-    tone(523, 0, 0.25, 'sine', 0.15);
-    tone(784, 0.14, 0.45, 'sine', 0.13);
+    tone(587, 0, 0.2, 'sine', 0.3);
+    tone(740, 0.11, 0.2, 'sine', 0.3);
+    tone(988, 0.22, 0.5, 'sine', 0.28);
   },
-  // טעות: צליל נמוך וקצר
+  // תשובה שגויה: זמזום נמוך וחד
   wrong() {
-    tone(196, 0, 0.35, 'triangle', 0.2);
+    tone(160, 0, 0.22, 'sawtooth', 0.22);
+    tone(120, 0.2, 0.34, 'sawtooth', 0.22);
   },
+  // כל לחיצה: נקישה קצרה
   click() {
-    tone(440, 0, 0.08, 'sine', 0.1);
+    tone(720, 0, 0.06, 'triangle', 0.16);
+    tone(540, 0.03, 0.07, 'triangle', 0.1);
   },
   hint() {
-    tone(660, 0, 0.12, 'sine', 0.1);
-    tone(880, 0.1, 0.18, 'sine', 0.1);
+    tone(660, 0, 0.12, 'sine', 0.16);
+    tone(880, 0.1, 0.18, 'sine', 0.16);
   },
   win() {
-    [392, 523, 659].forEach((f, i) => tone(f, i * 0.18, 0.6, 'sine', 0.14));
+    [392, 523, 659, 784].forEach((f, i) => tone(f, i * 0.18, 0.6, 'sine', 0.2));
   },
   lose() {
-    [330, 262].forEach((f, i) => tone(f, i * 0.25, 0.6, 'triangle', 0.16));
+    [330, 262].forEach((f, i) => tone(f, i * 0.25, 0.6, 'triangle', 0.22));
   },
 };

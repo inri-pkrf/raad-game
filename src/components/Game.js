@@ -4,14 +4,15 @@ import Modal from './Modal';
 import ItemIcon from './ItemIcon';
 import { TARGET } from '../scenes';
 import { getPhotoSetup } from '../photos';
+import { LampIcon, SoundOnIcon, SoundOffIcon, ExitIcon } from './Icons';
 import { sounds, setMuted } from '../sound';
 
 function WarnIcon() {
   return (
     <svg viewBox="0 0 48 44" width="40" height="36" aria-hidden="true">
-      <path d="M24 4 L45 40 H3 Z" fill="#e0932a" stroke="#10151a" strokeWidth="2.5" strokeLinejoin="round" />
-      <path d="M24 16 V28" stroke="#10151a" strokeWidth="4" strokeLinecap="round" />
-      <circle cx="24" cy="34" r="2.6" fill="#10151a" />
+      <path d="M24 4 L45 40 H3 Z" fill="#d9a441" stroke="#1a1610" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M24 16 V28" stroke="#1a1610" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="24" cy="34" r="2.6" fill="#1a1610" />
     </svg>
   );
 }
@@ -55,7 +56,7 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
   );
 
   const foundItems = found.map((id) => hazards.find((h) => h.id === id)).filter(Boolean);
-  const blocked = popup || boxOpen || ended;
+  const blocked = popup || boxOpen || toast || ended;
 
   const pick = (item) => {
     if (blocked || found.includes(item.id)) return;
@@ -76,20 +77,21 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
     later(() => setShakeId(null), 600);
     const next = mistakes + 1;
     setMistakes(next);
-    setToast({ key: Date.now(), label: item.label, text: item.text });
-    later(() => setToast(null), 4500);
+    setToast({ key: Date.now(), label: item.label, text: item.text, last: level.lives !== null && next >= level.lives });
+  };
 
-    if (level.lives !== null && next >= level.lives) {
+  // סגירת ההודעה על חפץ לא מסוכן. אם זו הייתה הטעות האחרונה - עוברים למסך הסיום
+  const closeToast = () => {
+    const last = toast && toast.last;
+    setToast(null);
+    if (last) {
       setEnded(true);
-      later(() => {
-        sounds.lose();
-        onLose();
-      }, 1400);
+      sounds.lose();
+      onLose();
     }
   };
 
   const understood = () => {
-    sounds.click();
     setPopup(null);
     if (found.length >= TARGET) {
       setEnded(true);
@@ -112,13 +114,11 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
   };
 
   const openBox = () => {
-    if (popup || ended) return;
-    sounds.click();
+    if (popup || toast || ended) return;
     setBoxOpen(true);
   };
 
   const closeBox = () => {
-    sounds.click();
     setBoxOpen(false);
   };
 
@@ -133,6 +133,19 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
   return (
     <div className="screen game">
       <div className="game-top">
+        {level.hints > 0 && (
+          <button
+            className="icon-btn lamp-btn"
+            onClick={useHint}
+            disabled={hintsLeft <= 0 || !!blocked}
+            aria-label={`רמז, נותרו ${hintsLeft}`}
+            title="רמז"
+          >
+            <LampIcon />
+            <span className="badge">{hintsLeft}</span>
+          </button>
+        )}
+
         <button className="box-btn" onClick={openBox} aria-label="רשימת החפצים שזוהו">
           <WarnIcon />
           <span className="box-text">
@@ -160,11 +173,11 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
         )}
 
         <div className="top-actions">
-          <button className="chip-btn" onClick={toggleSound} aria-label={soundOff ? 'הפעלת צליל' : 'השתקה'}>
-            {soundOff ? 'צליל כבוי' : 'צליל פעיל'}
+          <button className="icon-btn" onClick={toggleSound} aria-label={soundOff ? 'הפעלת צליל' : 'השתקה'} title={soundOff ? 'צליל כבוי' : 'צליל פעיל'}>
+            {soundOff ? <SoundOffIcon /> : <SoundOnIcon />}
           </button>
-          <button className="chip-btn" onClick={onExit} aria-label="יציאה לבחירת סביבה">
-            יציאה
+          <button className="icon-btn" onClick={onExit} aria-label="יציאה לבחירת סביבה" title="יציאה">
+            <ExitIcon />
           </button>
         </div>
       </div>
@@ -177,29 +190,24 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
         <Scene env={env} items={items} photo={photoSetup ? photoSetup.url : null} found={found} hintId={hintId} shakeId={shakeId} onPick={pick} />
       </div>
 
-      <div className="game-bottom">
-        {level.hints > 0 ? (
-          <button className="btn btn-soft" onClick={useHint} disabled={hintsLeft <= 0 || !!blocked}>
-            רמז ({hintsLeft})
-          </button>
-        ) : (
-          <span className="no-hints">ברמה זו אין רמזים</span>
-        )}
-      </div>
+      <div className="game-bottom" aria-hidden="true" />
 
       {toast && (
-        <div className="toast" key={toast.key} role="status">
-          <strong>{toast.label} – לא מסוכן</strong>
-          <span>{toast.text}</span>
+        <div className="toast-wrap" key={toast.key}>
+          <div className="toast" role="alertdialog">
+            <div className="toast-badge">חפץ לא מסוכן</div>
+            <strong>{toast.label}</strong>
+            <span>{toast.text}</span>
+            <button className="btn btn-primary toast-btn" onClick={closeToast}>
+              הבנתי
+            </button>
+          </div>
         </div>
       )}
 
       {popup && (
         <Modal label={popup.title}>
           <div className="danger-badge">זוהה חפץ מסוכן</div>
-          <div className="popup-icon">
-            <ItemIcon item={popup} size={190} />
-          </div>
           <h2 className="h2 popup-title">{popup.title}</h2>
           <p className="popup-text">{popup.text}</p>
           <div className="tip-box">

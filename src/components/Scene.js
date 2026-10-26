@@ -68,11 +68,11 @@ export default function Scene({ env, items, photo, found, hintId, shakeId, onPic
             {isFound && (
               <g className="found-mark">
                 <rect className="found-ring" x={x - 3} y={y - 3} width={w + 6} height={h + 6} rx="4" />
-                <circle cx={x + w - 4} cy={y + 6} r="13" fill="#e0932a" stroke="#10151a" strokeWidth="2.5" />
+                <circle cx={x + w - 4} cy={y + 6} r="13" fill="#d9a441" stroke="#1a1610" strokeWidth="2.5" />
                 <path
                   d={`M${x + w - 10} ${y + 6} l4.5 4.5 l8 -9`}
                   fill="none"
-                  stroke="#10151a"
+                  stroke="#1a1610"
                   strokeWidth="3.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
