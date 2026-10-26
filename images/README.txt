@@ -1,7 +1,7 @@
-כאן מניחים תמונות אמיתיות של הסביבות (אופציונלי):
-  home.jpg      - בית
-  office.jpg    - משרד
-  outdoor.jpg   - בחוץ
-יחס התמונה: 400:520 (לדוגמה 1000x1300 פיקסלים, לאורך).
-אם הקובץ קיים - הוא מוצג במקום הציור. אחרת המשחק מציג את הסצנה המצוירת.
-אחרי הוספת תמונה יש להתאים את אזורי הלחיצה (bbox/photoBbox) - ראו README.md.
+כאן נמצאות תמונות הצילום של המשחק, לכל סביבה ורמה:
+  home-easy.jpg / home-medium.jpg / home-hard.jpg       - בית
+  office-easy.jpg / office-medium.jpg / office-hard.jpg - משרד
+  outdoor-easy.jpg / outdoor-medium.jpg / outdoor-hard.jpg - בחוץ
+יחס התמונה: 1000x1300 (לאורך), בלי טקסט על התמונה.
+כרגע חסרה outdoor-medium.jpg, ובמקומה משתמשים ב-outdoor-easy.jpg.
+אזורי הלחיצה של כל תמונה מוגדרים ב-src/photos.js. לבדיקה פותחים עם ?debug=1.
