@@ -1,35 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { realize, RealismDefs } from '../realism';
 
 const DEBUG = typeof window !== 'undefined' && /[?&]debug=1/.test(window.location.search);
 
-// אם קיים קובץ public/images/<מזהה-סביבה>.jpg הוא מוצג כתמונת הרקע במקום הציור,
-// ואזורי הלחיצה נשארים בדיוק במקומות שהוגדרו (bbox או photoBbox בקובצי הסצנה).
-export const photoUrl = (envId) => `${process.env.PUBLIC_URL || ''}/images/${envId}.jpg`;
-
-function usePhoto(envId) {
-  const [ok, setOk] = useState(false);
-  useEffect(() => {
-    let alive = true;
-    setOk(false);
-    try {
-      const im = new Image();
-      im.onload = () => alive && setOk(true);
-      im.onerror = () => {};
-      im.src = photoUrl(envId);
-    } catch (e) {
-      /* אין תמונה - ממשיכים עם הציור */
-    }
-    return () => {
-      alive = false;
-    };
-  }, [envId]);
-  return ok;
-}
-
-export default function Scene({ env, items, found, hintId, shakeId, onPick }) {
+// photo: כתובת תמונת הצילום של הסצנה (או null - אז מוצג הציור). החפצים כבר מגיעים עם bbox במערכת 400x520.
+export default function Scene({ env, items, photo, found, hintId, shakeId, onPick }) {
   const { Background } = env;
-  const hasPhoto = usePhoto(env.id);
+  const hasPhoto = !!photo;
   const [clickPos, setClickPos] = useState(null);
 
   const trackClick = (e) => {
@@ -53,13 +30,13 @@ export default function Scene({ env, items, found, hintId, shakeId, onPick }) {
     >
       <RealismDefs />
       {hasPhoto ? (
-        <image href={photoUrl(env.id)} x="0" y="0" width="400" height="520" preserveAspectRatio="xMidYMid slice" />
+        <image href={photo} x="0" y="0" width="400" height="520" preserveAspectRatio="xMidYMid slice" />
       ) : (
         <Background />
       )}
 
       {items.map((item) => {
-        const [x, y, w, h] = hasPhoto && item.photoBbox ? item.photoBbox : item.bbox;
+        const [x, y, w, h] = item.bbox;
         const isFound = found.includes(item.id);
         const cls = ['hs'];
         if (isFound) cls.push('found');

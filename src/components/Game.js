@@ -3,6 +3,7 @@ import Scene from './Scene';
 import Modal from './Modal';
 import ItemIcon from './ItemIcon';
 import { TARGET } from '../scenes';
+import { getPhotoSetup } from '../photos';
 import { sounds, setMuted } from '../sound';
 
 function WarnIcon() {
@@ -16,9 +17,14 @@ function WarnIcon() {
 }
 
 export default function Game({ env, level, onWin, onLose, onExit }) {
+  // אם יש תמונת צילום לסביבה ולרמה הזאת - משתמשים בה ובחפצים שלה. אחרת - בציור.
+  const photoSetup = useMemo(() => getPhotoSetup(env, level.id), [env, level]);
   const items = useMemo(
-    () => env.items.filter((it) => it.kind === 'hazard' || it.level <= level.index),
-    [env, level]
+    () =>
+      photoSetup
+        ? photoSetup.items
+        : env.items.filter((it) => it.kind === 'hazard' || it.level <= level.index),
+    [env, level, photoSetup]
   );
   const hazards = useMemo(() => items.filter((it) => it.kind === 'hazard'), [items]);
 
@@ -168,7 +174,7 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
       </p>
 
       <div className="scene-card">
-        <Scene env={env} items={items} found={found} hintId={hintId} shakeId={shakeId} onPick={pick} />
+        <Scene env={env} items={items} photo={photoSetup ? photoSetup.url : null} found={found} hintId={hintId} shakeId={shakeId} onPick={pick} />
       </div>
 
       <div className="game-bottom">
