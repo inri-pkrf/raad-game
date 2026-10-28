@@ -189,7 +189,7 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
       </p>
 
       <div className="scene-card">
-        <Scene env={env} items={items} photo={photoSetup ? photoSetup.url : null} found={found} hintId={hintId} shakeId={shakeId} onPick={pick} />
+        <Scene env={env} items={items} photo={photoSetup ? photoSetup.url : null} sceneH={photoSetup ? photoSetup.height : 520} found={found} hintId={hintId} shakeId={shakeId} onPick={pick} />
       </div>
 
       <div className="game-bottom" aria-hidden="true" />

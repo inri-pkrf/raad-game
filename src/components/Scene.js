@@ -3,8 +3,8 @@ import { realize, RealismDefs } from '../realism';
 
 const DEBUG = typeof window !== 'undefined' && /[?&]debug=1/.test(window.location.search);
 
-// photo: כתובת תמונת הצילום של הסצנה (או null - אז מוצג הציור). החפצים כבר מגיעים עם bbox במערכת 400x520.
-export default function Scene({ env, items, photo, found, hintId, shakeId, onPick }) {
+// photo: כתובת תמונת הצילום של הסצנה (או null - אז מוצג הציור). החפצים כבר מגיעים עם bbox במערכת של הסצנה (רוחב 400, גובה sceneH).
+export default function Scene({ env, items, photo, sceneH = 520, found, hintId, shakeId, onPick }) {
   const { Background } = env;
   const hasPhoto = !!photo;
   const [clickPos, setClickPos] = useState(null);
@@ -22,7 +22,7 @@ export default function Scene({ env, items, photo, found, hintId, shakeId, onPic
   return (
     <svg
       className="scene"
-      viewBox="0 0 400 520"
+      viewBox={`0 0 400 ${sceneH}`}
       preserveAspectRatio="xMidYMid meet"
       role="group"
       aria-label={`תמונת ${env.name}`}
@@ -30,7 +30,7 @@ export default function Scene({ env, items, photo, found, hintId, shakeId, onPic
     >
       <RealismDefs />
       {hasPhoto ? (
-        <image href={photo} x="0" y="0" width="400" height="520" preserveAspectRatio="xMidYMid slice" />
+        <image href={photo} x="0" y="0" width="400" height={sceneH} preserveAspectRatio="xMidYMid slice" />
       ) : (
         <Background />
       )}
@@ -92,11 +92,11 @@ export default function Scene({ env, items, photo, found, hintId, shakeId, onPic
       })}
 
       {/* אפקטים על כל התמונה: גרגר עדין והחשכת שוליים */}
-      <rect width="400" height="520" filter="url(#rl-grain)" opacity="0.1" pointerEvents="none" />
-      <rect width="400" height="520" fill="url(#rl-vignette)" pointerEvents="none" />
+      <rect width="400" height={sceneH} filter="url(#rl-grain)" opacity="0.1" pointerEvents="none" />
+      <rect width="400" height={sceneH} fill="url(#rl-vignette)" pointerEvents="none" />
 
       {DEBUG && clickPos && (
-        <text x="6" y="512" fontSize="11" fill="#ffe36b" stroke="#000" strokeWidth="0.6" pointerEvents="none">
+        <text x="6" y={sceneH - 8} fontSize="11" fill="#ffe36b" stroke="#000" strokeWidth="0.6" pointerEvents="none">
           {clickPos}
         </text>
       )}

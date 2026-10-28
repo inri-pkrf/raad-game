@@ -26,7 +26,7 @@ export default function ItemIcon({ item, size = 72 }) {
             x="0"
             y="0"
             width="400"
-            height="520"
+            height={item.photoH || 520}
             preserveAspectRatio="xMidYMid slice"
             clipPath={`url(#${clipId})`}
           />
