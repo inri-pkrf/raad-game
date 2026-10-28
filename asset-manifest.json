@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/raad-game/static/css/main.f841f667.css",
-    "main.js": "/raad-game/static/js/main.ab5e1c3b.js",
+    "main.js": "/raad-game/static/js/main.a4b0e3b5.js",
     "static/media/assistant-latin-700-normal.woff": "/raad-game/static/media/assistant-latin-700-normal.6e0532b8412176c81044.woff",
     "static/media/assistant-latin-400-normal.woff": "/raad-game/static/media/assistant-latin-400-normal.02f27e42bfe570ee9f0a.woff",
     "static/media/assistant-latin-600-normal.woff": "/raad-game/static/media/assistant-latin-600-normal.cc96037adb621c498de8.woff",
@@ -34,10 +34,10 @@
     "static/media/karantina-latin-ext-700-normal.woff": "/raad-game/static/media/karantina-latin-ext-700-normal.62591ea90fb48c6d7b82.woff",
     "index.html": "/raad-game/index.html",
     "main.f841f667.css.map": "/raad-game/static/css/main.f841f667.css.map",
-    "main.ab5e1c3b.js.map": "/raad-game/static/js/main.ab5e1c3b.js.map"
+    "main.a4b0e3b5.js.map": "/raad-game/static/js/main.a4b0e3b5.js.map"
   },
   "entrypoints": [
     "static/css/main.f841f667.css",
-    "static/js/main.ab5e1c3b.js"
+    "static/js/main.a4b0e3b5.js"
   ]
 }
