@@ -92,6 +92,8 @@ h2,
   right: 0;
   height: 0.7rem;
   background: repeating-linear-gradient(-45deg, var(--accent) 0 0.9rem, var(--ink) 0.9rem 1.8rem);
+  background-size: 2.5456rem 0.7rem;
+  animation: stripesMove 2.4s linear infinite;
   pointer-events: none;
 }
 .app-shell::before {
@@ -101,6 +103,9 @@ h2,
   bottom: 0;
 }
 
+.screen:not(.game) {
+  animation: screenIn 0.45s ease both;
+}
 .screen {
   display: flex;
   flex-direction: column;
@@ -155,6 +160,7 @@ h2,
 }
 
 .card {
+  border-radius: 0.6rem;
   background: var(--surface);
   border: 1px solid var(--line);
   border-top: 0.4rem solid var(--green);
@@ -240,8 +246,11 @@ h2,
 
 /* ---------- כפתורים ---------- */
 .btn {
+  --cut: 0.8rem;
+  position: relative;
+  overflow: hidden;
   border: 0;
-  border-radius: 0.25rem;
+  border-radius: 0.4rem;
   min-height: 3.4rem;
   padding: 0.8rem 1.4rem;
   font-size: 1.3rem;
@@ -258,14 +267,27 @@ h2,
   cursor: default;
 }
 .btn-primary {
-  background: var(--green);
+  background: linear-gradient(180deg, #67a043 0%, #4b7731 100%);
   color: #fff;
   border-bottom: 0.3rem solid var(--green-dark);
+  letter-spacing: 0.02em;
 }
 .btn-soft {
-  background: transparent;
-  border: 2px solid var(--line);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 2px var(--line);
   color: var(--text);
+}
+/* ברק שעובר על כפתור ההתחלה */
+.btn-xl::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 28%;
+  left: -40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shine 3.4s ease-in-out infinite;
+  pointer-events: none;
 }
 .btn-xl {
   min-height: 4.4rem;
@@ -517,6 +539,7 @@ h2,
   flex: none;
 }
 .scene-card {
+  position: relative;
   flex: 1;
   min-height: 0;
   display: flex;
@@ -619,6 +642,7 @@ h2,
   z-index: 10;
 }
 .toast {
+  border-radius: 0.6rem;
   width: 100%;
   background: var(--surface-2);
   border: 3px solid var(--accent);
@@ -682,6 +706,7 @@ h2,
   }
 }
 .modal-card {
+  border-radius: 0.6rem;
   width: 100%;
   max-height: 100%;
   overflow: auto;
@@ -723,6 +748,7 @@ h2,
   padding: 0.25rem 1.2rem;
   font-size: 1.1rem;
   letter-spacing: 0.06em;
+  animation: badgePulse 1.4s ease-in-out infinite;
 }
 .popup-title {
   font-size: 3.2rem;
@@ -842,4 +868,356 @@ h2,
   .seismo-track {
     animation: none;
   }
+}
+@keyframes qsShake {
+  0.0% { transform: translate(-0.0px, -0.0px) rotate(0.00deg) scale(1.035); }
+  2.3% { transform: translate(-0.8px, 0.0px) rotate(-0.03deg) scale(1.045); }
+  4.5% { transform: translate(-1.5px, 0.0px) rotate(-0.20deg) scale(1.055); }
+  6.8% { transform: translate(-0.3px, -1.6px) rotate(-0.25deg) scale(1.066); }
+  9.1% { transform: translate(-0.5px, 1.6px) rotate(-0.30deg) scale(1.076); }
+  11.4% { transform: translate(-2.2px, 0.8px) rotate(0.44deg) scale(1.080); }
+  13.6% { transform: translate(0.7px, -0.7px) rotate(0.55deg) scale(1.080); }
+  15.9% { transform: translate(-4.8px, 2.9px) rotate(-0.28deg) scale(1.080); }
+  18.2% { transform: translate(-4.3px, -3.4px) rotate(-0.29deg) scale(1.080); }
+  20.5% { transform: translate(4.2px, -3.2px) rotate(0.14deg) scale(1.080); }
+  22.7% { transform: translate(2.0px, -1.4px) rotate(0.09deg) scale(1.080); }
+  25.0% { transform: translate(-7.0px, -5.3px) rotate(-0.59deg) scale(1.080); }
+  27.3% { transform: translate(2.9px, -0.9px) rotate(-0.37deg) scale(1.080); }
+  29.5% { transform: translate(1.4px, -0.6px) rotate(-0.40deg) scale(1.080); }
+  31.8% { transform: translate(4.7px, 2.4px) rotate(-0.51deg) scale(1.080); }
+  34.1% { transform: translate(1.2px, 0.3px) rotate(0.75deg) scale(1.080); }
+  36.4% { transform: translate(3.7px, -2.5px) rotate(0.96deg) scale(1.080); }
+  38.6% { transform: translate(-6.1px, -1.0px) rotate(0.51deg) scale(1.080); }
+  40.9% { transform: translate(-5.6px, -0.1px) rotate(-0.92deg) scale(1.080); }
+  43.2% { transform: translate(2.7px, 3.2px) rotate(0.15deg) scale(1.080); }
+  45.5% { transform: translate(6.0px, -2.2px) rotate(0.39deg) scale(1.080); }
+  47.7% { transform: translate(1.5px, 1.0px) rotate(-0.09deg) scale(1.080); }
+  50.0% { transform: translate(5.4px, 5.3px) rotate(-0.05deg) scale(1.080); }
+  52.3% { transform: translate(2.6px, -5.3px) rotate(0.40deg) scale(1.080); }
+  54.5% { transform: translate(2.4px, 5.9px) rotate(0.64deg) scale(1.080); }
+  56.8% { transform: translate(-3.4px, -1.4px) rotate(0.34deg) scale(1.080); }
+  59.1% { transform: translate(-7.6px, -0.5px) rotate(-0.66deg) scale(1.080); }
+  61.4% { transform: translate(-6.1px, -5.3px) rotate(0.54deg) scale(1.080); }
+  63.6% { transform: translate(-5.9px, -3.0px) rotate(-0.22deg) scale(1.080); }
+  65.9% { transform: translate(5.9px, -5.0px) rotate(-0.10deg) scale(1.080); }
+  68.2% { transform: translate(0.8px, 4.6px) rotate(0.64deg) scale(1.080); }
+  70.5% { transform: translate(5.8px, -2.7px) rotate(-0.17deg) scale(1.080); }
+  72.7% { transform: translate(-2.2px, 4.5px) rotate(0.89deg) scale(1.080); }
+  75.0% { transform: translate(-5.0px, -3.5px) rotate(-0.48deg) scale(1.080); }
+  77.3% { transform: translate(-3.5px, -0.1px) rotate(0.15deg) scale(1.080); }
+  79.5% { transform: translate(-2.9px, -4.5px) rotate(-0.12deg) scale(1.080); }
+  81.8% { transform: translate(-1.4px, 0.5px) rotate(0.61deg) scale(1.080); }
+  84.1% { transform: translate(1.8px, 0.1px) rotate(0.14deg) scale(1.080); }
+  86.4% { transform: translate(1.5px, -2.8px) rotate(0.42deg) scale(1.080); }
+  88.6% { transform: translate(2.0px, 2.0px) rotate(0.26deg) scale(1.080); }
+  90.9% { transform: translate(-0.6px, -0.4px) rotate(-0.29deg) scale(1.073); }
+  93.2% { transform: translate(0.6px, -1.5px) rotate(-0.24deg) scale(1.055); }
+  95.5% { transform: translate(-0.9px, -0.8px) rotate(-0.06deg) scale(1.036); }
+  97.7% { transform: translate(-0.7px, -0.6px) rotate(-0.07deg) scale(1.018); }
+  100.0% { transform: translate(-0.0px, -0.0px) rotate(-0.00deg) scale(1.000); }
+}
+
+/* =========================================================
+   עיצוב מחודש: רעידת אדמה, אנימציות ומסכי בחירה
+   ========================================================= */
+@keyframes stripesMove {
+  from { background-position-x: 0; }
+  to { background-position-x: 2.5456rem; }
+}
+@keyframes shine {
+  0%, 55% { left: -40%; }
+  100% { left: 130%; }
+}
+@keyframes screenIn {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+@keyframes blinkAlert {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* כותרת הפתיחה רועדת קלות מדי כמה שניות */
+.intro .title { animation: jolt 7s ease-in-out infinite; }
+@keyframes jolt {
+  0%, 90%, 100% { transform: translate(0, 0); }
+  91% { transform: translate(0.25rem, 0.1rem); }
+  92% { transform: translate(-0.25rem, -0.1rem); }
+  93% { transform: translate(0.2rem, 0); }
+  94% { transform: translate(-0.15rem, 0.1rem); }
+  95% { transform: translate(0, 0); }
+}
+
+/* גלי הלם ממוקד הרעידה */
+.epicenter {
+  position: relative;
+  height: 9.5rem;
+  flex: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.epicenter .ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6rem;
+  height: 6rem;
+  margin: -3rem 0 0 -3rem;
+  border: 0.2rem solid var(--accent);
+  border-radius: 50%;
+  opacity: 0;
+  animation: ringOut 3.6s ease-out infinite;
+}
+.epicenter .r2 { animation-delay: 1.2s; }
+.epicenter .r3 { animation-delay: 2.4s; }
+@keyframes ringOut {
+  0% { transform: scale(0.4); opacity: 0.9; }
+  100% { transform: scale(4.2); opacity: 0; }
+}
+.epi-core {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 0 0.6rem rgba(217, 164, 65, 0.7));
+  animation: coreThump 1.2s ease-in-out infinite;
+}
+@keyframes coreThump {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* בחירת סביבה: אריחים */
+.env-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  flex: none;
+}
+.env-tile {
+  border-radius: 0.6rem;
+  --cut: 0.9rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 11rem;
+  padding: 1.1rem 0.5rem 1rem;
+  text-align: center;
+  border: 0;
+  cursor: pointer;
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  box-shadow: inset 0 0 0 2px var(--line);
+}
+.env-ico {
+  border-radius: 0.5rem;
+  width: 4.6rem;
+  height: 4.6rem;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  box-shadow: inset 0 0 0 2px var(--line);
+  margin-bottom: 0.2rem;
+}
+.env-ico .ico { width: 2.7rem; height: 2.7rem; }
+.env-tile strong {
+  font-family: 'Karantina', 'Assistant', sans-serif;
+  font-size: 2.5rem;
+  line-height: 1;
+  font-weight: 700;
+}
+.env-tile small { font-size: 0.9rem; line-height: 1.2; color: var(--muted); }
+
+.tile-check {
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 0.2rem;
+  border: 2px solid var(--line);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+.env-tile .tile-check { position: absolute; top: 0.9rem; left: 0.5rem; }
+.selected .tile-check { background: var(--green); border-color: var(--green); }
+.selected .tile-check::after { content: '✓'; }
+
+.env-tile.selected,
+.level-row.selected {
+  background: linear-gradient(180deg, #3f3321, #2a2216);
+  box-shadow: inset 0 0 0 3px var(--accent);
+  animation: selGlow 2.2s ease-in-out infinite;
+}
+.env-tile.selected .env-ico {
+  color: var(--accent);
+  box-shadow: inset 0 0 0 2px var(--accent);
+  background: rgba(217, 164, 65, 0.14);
+}
+@keyframes selGlow {
+  0%, 100% { box-shadow: inset 0 0 0 3px var(--accent), inset 0 0 0.6rem rgba(217, 164, 65, 0.1); }
+  50% { box-shadow: inset 0 0 0 3px var(--accent), inset 0 0 2.2rem rgba(217, 164, 65, 0.3); }
+}
+
+/* בחירת רמת קושי: שורות עם גרף רעידה */
+.level-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: none;
+}
+.level-row {
+  border-radius: 0.6rem;
+  --cut: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 5rem;
+  padding: 0.6rem 1rem;
+  text-align: right;
+  border: 0;
+  cursor: pointer;
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  box-shadow: inset 0 0 0 2px var(--line);
+}
+.level-wave {
+  flex: none;
+  width: 5.2rem;
+  color: var(--muted);
+}
+.level-row.selected .level-wave { color: var(--accent); }
+.wave-ico { width: 100%; height: 2.6rem; display: block; }
+.level-text { display: flex; flex-direction: column; gap: 0.1rem; flex: 1; }
+.level-text strong { font-size: 1.4rem; }
+.level-text small { font-size: 0.95rem; color: var(--muted); line-height: 1.25; }
+.level-row .tile-check { flex: none; }
+
+/* ---------- רצף הרעידה במשחק ---------- */
+.game.quaking { animation: gameTremor 0.09s linear infinite alternate; }
+@keyframes gameTremor {
+  from { transform: translate(0.22rem, -0.14rem) rotate(0.12deg); }
+  to { transform: translate(-0.22rem, 0.16rem) rotate(-0.12deg); }
+}
+.game-prompt.prompt-quake {
+  color: #ff6a4d;
+  font-weight: 800;
+  font-size: 1.5rem;
+  animation: blinkAlert 0.5s step-end infinite;
+}
+.game-prompt.prompt-after { color: var(--green-light); }
+
+.qs { background: #070605; }
+.qs-world { transform-box: fill-box; transform-origin: center; }
+.qs-pre { opacity: 1; }
+.qs-post { opacity: 0; }
+.qs-before .qs-world { animation: qsZoom 2.8s ease-out forwards; }
+@keyframes qsZoom { from { transform: scale(1); } to { transform: scale(1.035); } }
+.qs-quake .qs-world { animation: qsShake 4.4s linear forwards; }
+.qs-quake .qs-pre { animation: qsPre 4.4s linear forwards; }
+.qs-quake .qs-post { animation: qsPost 4.4s linear forwards; }
+@keyframes qsPre { 0%, 50% { opacity: 1; } 62%, 100% { opacity: 0; } }
+@keyframes qsPost { 0%, 50% { opacity: 0; } 62%, 100% { opacity: 1; } }
+.qs-after .qs-pre { opacity: 0; }
+.qs-after .qs-post { opacity: 1; }
+
+.qs-haze { opacity: 0; pointer-events: none; }
+.qs-quake .qs-haze { animation: hazeUp 4.4s ease-in forwards; }
+@keyframes hazeUp { 0% { opacity: 0; } 70% { opacity: 0.6; } 100% { opacity: 0.45; } }
+.qs-after .qs-haze { animation: hazeOut 2.4s ease-out forwards; }
+@keyframes hazeOut { from { opacity: 0.45; } to { opacity: 0; } }
+
+.qs-alert { opacity: 0; pointer-events: none; }
+.qs-quake .qs-alert { animation: alertPulse 0.8s ease-in-out infinite alternate; }
+@keyframes alertPulse { from { opacity: 0.25; } to { opacity: 0.9; } }
+.qs-flash { opacity: 0; pointer-events: none; }
+.qs-quake .qs-flash { animation: qsFlash 4.4s linear forwards; }
+@keyframes qsFlash { 0%, 54% { opacity: 0; } 58% { opacity: 0.85; } 70%, 100% { opacity: 0; } }
+.qs-after .qs-flash { animation: afterFlash 0.9s ease-out both; }
+@keyframes afterFlash { from { opacity: 0.5; } to { opacity: 0; } }
+
+/* כיתוב גדול במרכז המסך בזמן הרצף */
+.phase-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+  pointer-events: none;
+  z-index: 4;
+  animation: phaseIn 0.4s ease both;
+}
+.phase-before,
+.phase-after { animation: phaseIn 0.4s ease both, phaseOut 0.5s ease 1.9s forwards; }
+.phase-quake { align-items: flex-start; padding-top: 3.2rem; }
+@keyframes phaseIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+@keyframes phaseOut { to { opacity: 0; } }
+.phase-plate {
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  text-align: center;
+  padding: 1.1rem 2.4rem 1.3rem;
+  background: rgba(15, 12, 8, 0.84);
+  border-top: 0.5rem solid var(--accent);
+}
+.phase-plate strong {
+  font-family: 'Karantina', 'Assistant', sans-serif;
+  font-size: 5.6rem;
+  line-height: 0.95;
+  font-weight: 700;
+  color: var(--text);
+}
+.phase-plate span { font-size: 1.3rem; font-weight: 700; color: var(--text-soft); }
+.phase-quake .phase-plate {
+  border-top-color: var(--danger);
+  background: rgba(46, 10, 6, 0.86);
+  animation: plateShake 0.12s linear infinite alternate;
+}
+.phase-quake .phase-plate strong { color: #ff6a4d; animation: blinkAlert 0.5s step-end infinite; }
+@keyframes plateShake {
+  from { transform: translate(0.15rem, -0.1rem); }
+  to { transform: translate(-0.15rem, 0.1rem); }
+}
+.phase-after .phase-plate { border-top-color: var(--green-light); }
+
+.skip-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 1.3rem;
+  transform: translateX(-50%);
+  z-index: 6;
+  min-height: 3rem;
+  padding: 0.4rem 1.6rem;
+  border: 0;
+  background: rgba(15, 12, 8, 0.8);
+  box-shadow: inset 0 0 0 2px var(--line);
+  color: var(--text-soft);
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* מסך הסיום */
+.result .eyebrow { animation: stampIn 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 0.1s both; }
+@keyframes stampIn {
+  from { transform: scale(2.4) rotate(-8deg); opacity: 0; }
+  to { transform: scale(1) rotate(-2deg); opacity: 1; }
+}
+.found-list li { animation: itemIn 0.5s ease both; }
+.found-list li:nth-child(1) { animation-delay: 0.2s; }
+.found-list li:nth-child(2) { animation-delay: 0.35s; }
+.found-list li:nth-child(3) { animation-delay: 0.5s; }
+.found-list li:nth-child(4) { animation-delay: 0.65s; }
+.found-list li:nth-child(5) { animation-delay: 0.8s; }
+@keyframes itemIn {
+  from { opacity: 0; transform: translateX(1.5rem); }
+  to { opacity: 1; transform: none; }
 }

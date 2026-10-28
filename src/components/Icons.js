@@ -78,3 +78,49 @@ export function ExitFullscreenIcon() {
     </svg>
   );
 }
+
+// אייקוני סביבה (בית, משרד, בחוץ)
+export function HomeIcon() {
+  return (
+    <svg {...base}>
+      <path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" />
+      <path d="M9 21v-7h6v7" />
+    </svg>
+  );
+}
+
+export function OfficeIcon() {
+  return (
+    <svg {...base}>
+      <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+      <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+      <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+      <path d="M10 6h4M10 10h4M10 14h4M10 18h4" />
+    </svg>
+  );
+}
+
+export function OutdoorIcon() {
+  return (
+    <svg {...base}>
+      <path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" />
+      <path d="M7 16v6M13 19v3" />
+      <path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" />
+    </svg>
+  );
+}
+
+// קו סייסמוגרף קטן. amp קובע את גודל הרעידה (בשביל רמות הקושי)
+export function WaveIcon({ amp = 4, bars = 14 }) {
+  const pts = [];
+  for (let i = 0; i <= bars; i += 1) {
+    const x = (i / bars) * 60;
+    const y = 14 + (i % 2 === 0 ? -1 : 1) * amp * (0.35 + 0.65 * Math.sin((i / bars) * Math.PI));
+    pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+  }
+  return (
+    <svg viewBox="0 0 60 28" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="wave-ico">
+      <polyline points={pts.join(' ')} />
+    </svg>
+  );
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Scene from './Scene';
+import QuakeStage, { T_BEFORE, T_QUAKE, T_AFTER } from './QuakeStage';
 import Modal from './Modal';
 import FullscreenButton from './FullscreenButton';
 import ItemIcon from './ItemIcon';
@@ -41,7 +42,11 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
   const [plusKey, setPlusKey] = useState(0);
   const [soundOff, setSoundOff] = useState(false);
   const [ended, setEnded] = useState(false);
+  // רצף פתיחה: before (החדר לפני) -> quake (רעידה) -> after (החדר אחרי) -> play (בוחרים סכנות)
+  const [phase, setPhase] = useState(photoSetup ? 'before' : 'play');
   const timers = useRef([]);
+  const introTimers = useRef([]);
+  const stopQuake = useRef(null);
 
   const later = (fn, ms) => {
     const t = setTimeout(fn, ms);
@@ -56,8 +61,38 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
     []
   );
 
+  // מפעיל את רצף הפתיחה: לפני הרעידה, הרעידה עצמה, ואחריה
+  useEffect(() => {
+    if (!photoSetup) return undefined;
+    [photoSetup.preUrl, photoSetup.url].forEach((u) => {
+      const im = new Image();
+      im.src = u;
+    });
+    const t1 = setTimeout(() => {
+      setPhase('quake');
+      stopQuake.current = sounds.quake(T_QUAKE / 1000);
+    }, T_BEFORE);
+    const t2 = setTimeout(() => {
+      setPhase('after');
+      sounds.alert();
+    }, T_BEFORE + T_QUAKE);
+    const t3 = setTimeout(() => setPhase('play'), T_BEFORE + T_QUAKE + T_AFTER);
+    introTimers.current = [t1, t2, t3];
+    return () => {
+      [t1, t2, t3].forEach(clearTimeout);
+      if (stopQuake.current) stopQuake.current();
+    };
+  }, [photoSetup]);
+
+  const skipIntro = () => {
+    introTimers.current.forEach(clearTimeout);
+    if (stopQuake.current) stopQuake.current();
+    setPhase('play');
+  };
+
   const foundItems = found.map((id) => hazards.find((h) => h.id === id)).filter(Boolean);
-  const blocked = popup || boxOpen || toast || ended;
+  const blocked = phase !== 'play' || popup || boxOpen || toast || ended;
+  const intro = !!photoSetup && phase !== 'play';
 
   const pick = (item) => {
     if (blocked || found.includes(item.id)) return;
@@ -115,7 +150,7 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
   };
 
   const openBox = () => {
-    if (popup || toast || ended) return;
+    if (phase !== 'play' || popup || toast || ended) return;
     setBoxOpen(true);
   };
 
@@ -132,7 +167,7 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
   const slots = Array.from({ length: TARGET }, (_, i) => foundItems[i] || null);
 
   return (
-    <div className="screen game">
+    <div className={`screen game${phase === 'quake' ? ' quaking' : ''}`}>
       <div className="game-top">
         {level.hints > 0 && (
           <button
@@ -184,15 +219,51 @@ export default function Game({ env, level, onWin, onLose, onExit }) {
         </div>
       </div>
 
-      <p className="game-prompt">
-        {env.name}: לחצו על חפצים שעלולים ליפול, להתהפך או להישבר
+      <p className={`game-prompt prompt-${phase}`}>
+        {phase === 'before' && `${env.name}: כך נראה המקום לפני הרעידה`}
+        {phase === 'quake' && 'רעידת אדמה!'}
+        {phase === 'after' && 'אחרי הרעידה'}
+        {phase === 'play' && `${env.name}: לחצו על החפצים המסוכנים בתמונה`}
       </p>
 
       <div className="scene-card">
-        <Scene env={env} items={items} photo={photoSetup ? photoSetup.url : null} sceneH={photoSetup ? photoSetup.height : 520} found={found} hintId={hintId} shakeId={shakeId} onPick={pick} />
+        {intro ? (
+          <QuakeStage preUrl={photoSetup.preUrl} postUrl={photoSetup.url} phase={phase} />
+        ) : (
+          <Scene env={env} items={items} photo={photoSetup ? photoSetup.url : null} found={found} hintId={hintId} shakeId={shakeId} onPick={pick} />
+        )}
+
+        {intro && (
+          <div className={`phase-card phase-${phase}`} key={phase} aria-live="polite">
+            <div className="phase-plate">
+              {phase === 'before' && (
+                <>
+                  <strong>  זהו עוד יום רגיל</strong>
+                  <span> עד שברגע הכל משתנה </span>
+                </>
+              )}
+              {phase === 'quake' && (
+                <>
+                  <strong>רעידת אדמה!</strong>
+                  <span>כמה שניות שמשנות הכל</span>
+                </>
+              )}
+              {phase === 'after' && (
+                <>
+                  <strong>אחרי הרעידה</strong>
+                  <span>מה הם הסכנות? </span>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
-      <div className="game-bottom" aria-hidden="true" />
+      {intro && (
+        <button className="skip-btn" onClick={skipIntro}>
+          דלגו על הרעידה
+        </button>
+      )}
 
       {toast && (
         <div className="toast-wrap" key={toast.key}>

@@ -5,6 +5,7 @@ import { realize, RealismDefs } from '../realism';
 export default function ItemIcon({ item, size = 72 }) {
   const [x, y, w, h] = item.bbox;
   const pad = 8;
+  const [imgW, imgH] = item.photo ? [360, 640] : [400, 520];
   const clipId = `clip-${useId().replace(/:/g, '')}`;
   return (
     <svg
@@ -25,8 +26,8 @@ export default function ItemIcon({ item, size = 72 }) {
             href={item.photo}
             x="0"
             y="0"
-            width="400"
-            height={item.photoH || 520}
+            width={imgW}
+            height={imgH}
             preserveAspectRatio="xMidYMid slice"
             clipPath={`url(#${clipId})`}
           />
